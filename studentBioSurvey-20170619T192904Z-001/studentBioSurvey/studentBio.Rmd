@@ -1,0 +1,173 @@
+---
+title: "My Students"
+header-includes:
+- \usepackage{multicol}
+- \usepackage{graphicx}
+- \graphicspath{ {pictures/} }
+date: "Fall 2017"
+output:
+  pdf_document: default
+geometry: margin=0.5in
+fontsize: 12pt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, error = FALSE, message = FALSE, warning = FALSE)
+
+library(qualtricsR)
+
+survDat = importQualtricsData("sberry5@nd.edu#nd", 
+                              "DSfaY34hc6jFdTOHiEns1sFf4IOtfuJbB15O0Xz2", 
+                              "SV_bdfmX40pBd0Ol2R", 
+                              dropExtra = TRUE)
+```
+
+```{r, results='asis'}
+
+infoPrinter = function(x) {
+  imageExtension = if(grepl("png", survDat$picture[x])) {
+    ".png"
+  } else if(grepl("\\.jpeg", survDat$picture[x])) {
+    ".jpeg"
+  } else if(grepl("\\.jpg", survDat$picture[x])) {
+    ".jpg"
+  } else {
+    ".gif"
+  }
+  
+  pictureFolderFileName = paste("pictures/", survDat$contactInfo_1_TEXT[x], 
+                                survDat$contactInfo_2_TEXT[x], imageExtension, 
+                                sep = "")
+  
+  curl::curl_download(survDat$picture[x], pictureFolderFileName)
+  
+  pictureName = paste(survDat$contactInfo_1_TEXT[x], 
+                      survDat$contactInfo_2_TEXT[x], imageExtension, 
+                      sep = "")
+  
+  
+ cat(paste("\\centerline{\\includegraphics[height=6cm]{", pictureName, "}", "}", sep = ""))
+  
+  cat("$\\hfill\\break$")
+  cat("$\\hfill\\break$")
+  
+  cat("\\begin{multicols}{2}")
+  
+  cat(paste("\\Large{",survDat$contactInfo_1_TEXT[x], survDat$contactInfo_2_TEXT[x], "}",
+            sep = " "))
+  
+  cat("$\\hfill\\break$")
+  cat("$\\hfill\\break$")
+  
+  cat(paste("\\normalsize{","\\textbf{", "Major:","}","}", survDat$contactInfo_3_TEXT[x], sep = " "))
+  
+  cat("$\\hfill\\break$")
+  
+  cat(paste("\\textbf{", "Hometown:","}", survDat$contactInfo_4_TEXT[x], sep = " "))
+  
+  cat("$\\hfill\\break$")
+  
+  cat(paste("\\textbf{", "Class:","}", survDat$contactInfo_5_TEXT[x],  sep = " "))
+  
+  cat("$\\hfill\\break$")
+  
+  cat(paste("\\textbf{", "Address:","}", survDat$contactInfo_6_TEXT[x], sep = " "))
+  
+  cat("$\\hfill\\break$")
+  
+  cat(paste("\\textbf{","Phone:","}", survDat$contactInfo_7_TEXT[x], sep = " "))
+  
+  cat("$\\hfill\\break$")
+  cat("$\\hfill\\break$")
+  
+  cat("\\end{multicols}")
+  
+  cat("\\begin{multicols}{2}")
+  
+  cat(paste("\\textbf{","When did you complete Acct 20200:","}", survDat$acct20200_1_TEXT[x]), sep = " ")
+  
+  cat("$\\hfill\\break$")
+  cat("$\\hfill\\break$")
+  
+  cat(paste("\\textbf{","Where did you complete Acct 20200:", "}", survDat$acct20200_2_TEXT[x]), sep = " ")
+  
+  cat("$\\hfill\\break$")
+  cat("$\\hfill\\break$")
+  
+  if (survDat$studyAbroadNY[x] == "2") {
+    cat(paste("\\textbf{","Study abroad experience:", "}", survDat$studyAbroadWhere[x]), sep = " ")
+  } else
+    cat(paste("\\textbf{","Study abroad experience:","}", "Has not studied abroad"), sep = " ")
+  
+  cat("$\\hfill\\break$")
+  cat("$\\hfill\\break$")
+  
+  cat(paste("\\textbf{","Work Experience:","}", survDat$workExperience[x]), sep = " ")
+  
+  cat("$\\hfill\\break$")
+  cat("$\\hfill\\break$")
+  
+  cat(paste("\\textbf{","Why did you choose accounting:","}", survDat$accountingReason[x], sep = " "))
+  
+  cat("$\\hfill\\break$")
+  cat("$\\hfill\\break$")
+  
+  cat(paste("\\textbf{","What is your dream job:","}", survDat$dreamJob[x]), sep = " ")
+  
+  cat("$\\hfill\\break$")
+  cat("$\\hfill\\break$")
+  
+  if (survDat$postGraduation[x] == "1") {
+    cat(paste("\\textbf{","Go to graduate school:","}", survDat$postGraduationSpecif[x],
+      sep = " "
+    ))
+  } else if (survDat$postGraduation[x] == "2") {
+    cat(paste("\\textbf{","Join a public accounting firm:","}", survDat$postGraduationSpecif[x],
+      sep = " "
+    ))
+  } else if (survDat$postGraduation == "3") {
+    cat(paste("\\textbf{","Work for a non-profit:","}", survDat$postGraduationSpecif[x],
+      sep = " "
+    ))
+  } else if (survDat$postGraduation[x] == "4") {
+    cat(paste("\\textbf{","Join a religious order:","}", survDat$postGraduationSpecif[x],
+      sep = " "
+    ))
+  } else if (survDat$postGraduation[x] == "5") {
+    cat(paste("\\textbf{","Military assignment:","}", survDat$postGraduationSpecif[x],
+      sep = " "
+    ))
+  } else if (survDat$postGraduation[x] == "6") {
+    cat(paste("\\textbf{","Join a professional sports team:","}", survDat$postGraduationSpecif[x],
+      sep = " "
+    ))
+  } else if (survDat$postGraduation[x] == "7") {
+    cat(paste("\\textbf{","Start my own business:","}", survDat$postGraduationSpecif[x], 
+              sep = " "
+    ))
+  } else {
+    cat(paste("\\textbf{","Other:","}", survDat$postGraduationSpecif[x], sep = " "))
+  }
+  
+  cat("$\\hfill\\break$")
+  cat("$\\hfill\\break$")
+  
+  cat(paste("\\textbf{","What do you do for leisure:","}", survDat$leisure[x]), sep = " ")
+  
+  cat("$\\hfill\\break$")
+  cat("$\\hfill\\break$")
+  
+  cat(paste("\\textbf{","What books have you recently read:","}", survDat$books[x]), sep = "")
+  
+  cat("$\\hfill\\break$")
+  cat("$\\hfill\\break$")
+  
+  cat(paste("\\textbf{","Tell me something special or unique:","}", survDat$special[x]), sep = "")
+  
+  cat("\\end{multicols}")
+  
+  cat("\\newpage")
+}
+
+lapply(1:nrow(survDat), function(x) infoPrinter(x))
+```

@@ -1,0 +1,1 @@
+b = unique(append(execs,sub('^(\\w+).*\\b(\\w+)$', '\\1 \\2', execs)))
